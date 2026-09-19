@@ -1,0 +1,597 @@
+{
+  "meta": {
+    "name": "Aventureiro — personagem 2D",
+    "version": "1.0.0",
+    "format": "character-animator-v1",
+    "defaultAnimation": "idle",
+    "frameSize": {
+      "w": 256,
+      "h": 256
+    },
+    "pivot": {
+      "x": 0.5,
+      "y": 0.9
+    },
+    "sheetOrder": [
+      "locomotion",
+      "run_turn",
+      "jump",
+      "water",
+      "crouch",
+      "climb",
+      "reactions",
+      "celebrate"
+    ],
+    "uniqueFrameCount": 128,
+    "animationCount": 27,
+    "sourceReference": "IMG_3017.jpeg",
+    "directions": {
+      "right": "arte-base",
+      "left": "espelhamento horizontal"
+    },
+    "colorSpace": "sRGB",
+    "notes": [
+      "Pacote de poses 2D geradas a partir da referência fornecida; não contém malha 3D, esqueleto, rig ou deformação de membros em tempo real.",
+      "Movimento no mundo, colisões, gravidade e estados aquáticos são controlados pelo jogo.",
+      "As animações jump_full e victory_hold reutilizam células já presentes; os 27 nomes não representam 27 sequências independentes de quadros inéditos.",
+      "As poses foram redesenhadas a partir da referência. Os traços faciais podem variar entre quadros e ângulos; não são cópias pixel a pixel do rosto original."
+    ]
+  },
+  "sheets": {
+    "locomotion": {
+      "image": "spritesheets/locomotion.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "run_turn": {
+      "image": "spritesheets/run_turn.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "jump": {
+      "image": "spritesheets/jump.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "water": {
+      "image": "spritesheets/water.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "crouch": {
+      "image": "spritesheets/crouch.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "climb": {
+      "image": "spritesheets/climb.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "reactions": {
+      "image": "spritesheets/reactions.webp",
+      "columns": 4,
+      "rows": 4
+    },
+    "celebrate": {
+      "image": "spritesheets/celebrate.webp",
+      "columns": 4,
+      "rows": 4
+    }
+  },
+  "animations": {
+    "idle": {
+      "sheet": "locomotion",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Parado · respiração"
+    },
+    "walk": {
+      "sheet": "locomotion",
+      "frames": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 10,
+      "loop": true,
+      "next": null,
+      "events": {
+        "0": "footstep",
+        "4": "footstep"
+      },
+      "label": "Andar"
+    },
+    "run": {
+      "sheet": "run_turn",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 12,
+      "loop": true,
+      "next": null,
+      "events": {
+        "0": "footstep",
+        "4": "footstep"
+      },
+      "label": "Correr"
+    },
+    "turn": {
+      "sheet": "run_turn",
+      "frames": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "7": "turn_complete"
+      },
+      "label": "Virar o corpo",
+      "notes": "A direção no mundo é definida pelo jogo; este clipe não altera facing automaticamente."
+    },
+    "jump_start": {
+      "sheet": "jump",
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "jump_rise",
+      "events": {
+        "3": "takeoff"
+      },
+      "label": "Impulso do salto"
+    },
+    "jump_rise": {
+      "sheet": "jump",
+      "frames": [
+        4,
+        5,
+        6
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "jump_apex",
+      "events": {},
+      "label": "Subida do salto"
+    },
+    "jump_apex": {
+      "sheet": "jump",
+      "frames": [
+        7,
+        8
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Ápice do salto",
+      "notes": "O jogo deve selecionar fall quando a velocidade vertical se tornar descendente."
+    },
+    "fall": {
+      "sheet": "jump",
+      "frames": [
+        9,
+        10,
+        11
+      ],
+      "fps": 10,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Queda",
+      "notes": "O jogo deve selecionar land no primeiro contato com o chão."
+    },
+    "land": {
+      "sheet": "jump",
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "0": "land"
+      },
+      "label": "Aterrissagem"
+    },
+    "jump_full": {
+      "sheet": "jump",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "12": "land",
+        "3": "takeoff"
+      },
+      "label": "Salto completo · visualização",
+      "notes": "Sequência visual completa. Para salto com física, use os clipes individuais e mova a posição do personagem no jogo."
+    },
+    "swim": {
+      "sheet": "water",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 10,
+      "loop": true,
+      "next": null,
+      "events": {
+        "0": "swim_stroke",
+        "4": "swim_stroke"
+      },
+      "label": "Nadar"
+    },
+    "tread_water": {
+      "sheet": "water",
+      "frames": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Flutuar na água"
+    },
+    "dive": {
+      "sheet": "water",
+      "frames": [
+        12,
+        13
+      ],
+      "fps": 10,
+      "loop": false,
+      "next": "swim",
+      "events": {
+        "1": "splash"
+      },
+      "label": "Entrada em nado",
+      "notes": "Entrada em posição horizontal e início da braçada, com colete. O identificador dive é preservado para integração; a arte não representa mergulho profundo."
+    },
+    "water_exit": {
+      "sheet": "water",
+      "frames": [
+        14,
+        15
+      ],
+      "fps": 8,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "1": "water_exit"
+      },
+      "label": "Sair da água",
+      "notes": "Acione somente quando o jogo confirmar uma borda ou saída acessível."
+    },
+    "crouch_down": {
+      "sheet": "crouch",
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "crouch_idle",
+      "events": {},
+      "label": "Agachar"
+    },
+    "crouch_idle": {
+      "sheet": "crouch",
+      "frames": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Agachado"
+    },
+    "crawl": {
+      "sheet": "crouch",
+      "frames": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "fps": 10,
+      "loop": true,
+      "next": null,
+      "events": {
+        "0": "crawl_contact",
+        "2": "crawl_contact"
+      },
+      "label": "Rastejar"
+    },
+    "stand_up": {
+      "sheet": "crouch",
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "idle",
+      "events": {},
+      "label": "Levantar",
+      "notes": "O jogo deve confirmar espaço livre acima do personagem antes de iniciar."
+    },
+    "climb": {
+      "sheet": "climb",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 10,
+      "loop": true,
+      "next": null,
+      "events": {
+        "0": "climb_contact",
+        "4": "climb_contact"
+      },
+      "label": "Escalar"
+    },
+    "hang": {
+      "sheet": "climb",
+      "frames": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Pendurado"
+    },
+    "pull_up": {
+      "sheet": "climb",
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 10,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "3": "ledge_reached"
+      },
+      "label": "Subir a borda",
+      "notes": "Use somente após alcançar uma borda; o reposicionamento e a colisão pertencem ao jogo."
+    },
+    "hurt": {
+      "sheet": "reactions",
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 12,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "0": "hurt"
+      },
+      "label": "Receber dano"
+    },
+    "knockdown": {
+      "sheet": "reactions",
+      "frames": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 10,
+      "loop": false,
+      "next": "get_up",
+      "events": {
+        "3": "ground_impact"
+      },
+      "label": "Cair ao chão"
+    },
+    "get_up": {
+      "sheet": "reactions",
+      "frames": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "fps": 10,
+      "loop": false,
+      "next": "idle",
+      "events": {},
+      "label": "Levantar do chão"
+    },
+    "interact": {
+      "sheet": "reactions",
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 10,
+      "loop": false,
+      "next": "idle",
+      "events": {
+        "2": "interact"
+      },
+      "label": "Interagir · estender a mão"
+    },
+    "celebrate": {
+      "sheet": "celebrate",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 8,
+      "loop": false,
+      "next": "victory_hold",
+      "events": {
+        "12": "victory"
+      },
+      "label": "Vitória · giro e punho erguido",
+      "notes": "Giro corporal seguido de elevação do punho fechado. victory_hold mantém a pose final até o jogo escolher outra ação."
+    },
+    "victory_hold": {
+      "sheet": "celebrate",
+      "frames": [
+        15
+      ],
+      "fps": 8,
+      "loop": true,
+      "next": null,
+      "events": {},
+      "label": "Vitória · manter punho erguido",
+      "notes": "Reutiliza a última célula da comemoração; não adiciona um quadro-fonte exclusivo."
+    }
+  },
+  "transitions": {
+    "idle": {
+      "crouch_idle": "crouch_down",
+      "crawl": "crouch_down",
+      "swim": "dive",
+      "tread_water": "dive"
+    },
+    "walk": {
+      "crouch_idle": "crouch_down",
+      "crawl": "crouch_down",
+      "swim": "dive",
+      "tread_water": "dive"
+    },
+    "run": {
+      "crouch_idle": "crouch_down",
+      "crawl": "crouch_down",
+      "swim": "dive",
+      "tread_water": "dive"
+    },
+    "crouch_idle": {
+      "idle": "stand_up",
+      "walk": "stand_up",
+      "run": "stand_up"
+    },
+    "crawl": {
+      "idle": "stand_up",
+      "walk": "stand_up",
+      "run": "stand_up"
+    },
+    "swim": {
+      "idle": "water_exit",
+      "walk": "water_exit",
+      "run": "water_exit"
+    },
+    "tread_water": {
+      "idle": "water_exit",
+      "walk": "water_exit",
+      "run": "water_exit"
+    },
+    "climb": {
+      "idle": "pull_up",
+      "walk": "pull_up",
+      "run": "pull_up"
+    },
+    "hang": {
+      "idle": "pull_up",
+      "walk": "pull_up",
+      "run": "pull_up"
+    }
+  }
+}
